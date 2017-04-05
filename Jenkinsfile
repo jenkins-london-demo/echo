@@ -3,11 +3,11 @@
 node {
   try {
     slackSend(
-      message: "Job started: <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
-      channel: "#jenkins-london-demo",
-      color: "good",
-      teamDomain: "askattest",
-      tokenCredentialId: "slack-token"
+        message: "Job started: <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
+        channel: "#jenkins-london-demo",
+        color: "good",
+        teamDomain: "askattest",
+        tokenCredentialId: "slack-token"
     )
 
     stage("Setup") {
@@ -15,31 +15,34 @@ node {
     }
 
     stage("Gradle Build") {
-      sh "gradle clean compileJava"
+      String gradleHome = tool 'Gradle 2.14.1'
+      sh "${gradleHome}/bin/gradle clean compileJava"
     }
 
     stage("Gradle Test") {
-      sh "gradle test"
+      String gradleHome = tool 'Gradle 2.14.1'
+      sh "${gradleHome}/bin/gradle test"
     }
 
     stage("Gradle Package") {
-      sh "gradle jar"
+      String gradleHome = tool 'Gradle 2.14.1'
+      sh "${gradleHome}/bin/gradle jar"
     }
 
     slackSend(
-      message: "Job success! <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
-      channel: "#jenkins-london-demo",
-      color: "good",
-      teamDomain: "askattest",
-      tokenCredentialId: "slack-token"
+        message: "Job success! <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
+        channel: "#jenkins-london-demo",
+        color: "good",
+        teamDomain: "askattest",
+        tokenCredentialId: "slack-token"
     )
   } catch (exception) {
     slackSend(
-      message: "Job success! <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
-      channel: "#jenkins-london-demo",
-      color: "danger",
-      teamDomain: "askattest",
-      tokenCredentialId: "slack-token"
+        message: "Job failure! <${env.BUILD_URL}console|${env.JOB_NAME} #${env.BUILD_NUMBER}>",
+        channel: "#jenkins-london-demo",
+        color: "danger",
+        teamDomain: "askattest",
+        tokenCredentialId: "slack-token"
     )
     throw exception
   } finally {
