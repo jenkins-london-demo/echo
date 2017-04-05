@@ -9,18 +9,15 @@ node {
     }
 
     stage("Gradle Build") {
-      String gradleHome = tool 'Gradle 2.14.1'
-      sh "${gradleHome}/bin/gradle clean compileJava"
+      gradle("clean compileJava")
     }
 
     stage("Gradle Test") {
-      String gradleHome = tool 'Gradle 2.14.1'
-      sh "${gradleHome}/bin/gradle test"
+      gradle("test")
     }
 
     stage("Gradle Package") {
-      String gradleHome = tool 'Gradle 2.14.1'
-      sh "${gradleHome}/bin/gradle jar"
+      gradle("jar")
     }
   }
 }
