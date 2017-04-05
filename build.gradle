@@ -1,0 +1,35 @@
+import java.time.ZoneOffset
+
+group 'com.askattest.echo'
+version '1.0.' + getDate()
+
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+test {
+  testLogging {
+    exceptionFormat = 'full'
+  }
+}
+
+dependencies {
+  testCompile 'junit:junit:4.12'
+}
+
+jar {
+  archiveName 'echo-' + project.version + '.jar'
+  manifest {
+    attributes 'Main-Class': 'com.askattest.echo.Run'
+  }
+
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+static getDate() {
+  return new Date().format('yyMMddHHmmssSSS', TimeZone.getTimeZone(ZoneOffset.UTC))
+}
