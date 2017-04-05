@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-@Library('sharedPipeline@1.0.0') _
+@Library('sharedPipeline@2.0.0') _
 
 node {
   withSlackStatusReporting {
